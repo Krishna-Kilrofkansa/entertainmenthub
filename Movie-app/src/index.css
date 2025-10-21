@@ -1,0 +1,2184 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800;900&display=swap");
+@import "./colors.css";
+@import "./styles/login.css";
+
+@import "tailwindcss";
+
+@theme {
+    --color-netflix-bg: #141414;
+    --color-netflix-red: #E50914;
+    --color-netflix-white: #FFFFFF;
+    --color-netflix-muted: #A9A9A9;
+    --color-netflix-dark: #000000;
+
+    --color-primary: #141414;
+    --color-secondary: #2F2F2F;
+    --color-accent: #E50914;
+    --color-light: #FFFFFF;
+
+    --color-light-100: #FFFFFF;
+    --color-light-200: #A9A9A9;
+
+    --color-gray-100: #A9A9A9;
+
+    --color-dark-100: #2F2F2F;
+
+    --font-inter: Inter, sans-serif;
+
+    --breakpoint-xs: 480px;
+
+    --background-image-hero-pattern: url("/hero-bg.png");
+}
+
+@layer base {
+    body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(180deg, #0f0f0f 0%, #141414 100%);
+        color: #FFFFFF;
+        overflow-x: hidden;
+    }
+
+    h1 {
+        @apply mx-auto max-w-4xl text-center text-5xl font-bold leading-tight tracking-[-1%] text-white sm:text-[64px] sm:leading-[76px];
+        font-family: 'Bebas Neue', 'Montserrat', sans-serif;
+    }
+
+    h2 {
+        @apply text-2xl font-bold text-white sm:text-3xl;
+        font-family: 'Bebas Neue', 'Montserrat', sans-serif;
+    }
+
+    main {
+        @apply min-h-screen relative;
+        background: linear-gradient(180deg, #0f0f0f 0%, #141414 100%);
+    }
+
+    header {
+        @apply sm:mt-10 mt-5;
+    }
+
+    header img {
+        @apply w-full max-w-lg h-auto object-contain mx-auto drop-shadow-md;
+    }
+}
+
+@layer components {
+
+
+
+
+    .sort-controls {
+        @apply flex items-center gap-3;
+
+        & .sort-label {
+            @apply text-white font-medium text-sm;
+        }
+
+        & .sort-select {
+            @apply bg-dark-100 text-white px-3 py-2 rounded-lg border border-light-100/20 focus:border-light-100/40 focus:outline-none transition-colors;
+        }
+    }
+
+    .genre-filter {
+        @apply mt-6 mb-8;
+
+        & .genre-title {
+            @apply text-white font-semibold text-lg mb-4;
+        }
+
+        & .genre-grid {
+            @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 mb-4;
+        }
+
+        & .genre-item {
+            @apply flex items-center gap-2 cursor-pointer hover:bg-light-100/5 p-2 rounded-lg transition-colors;
+
+            & .genre-checkbox {
+                @apply w-4 h-4 accent-purple-500;
+            }
+
+            & .genre-label {
+                @apply text-white text-sm font-medium;
+            }
+        }
+
+        & .clear-genres-btn {
+            @apply bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors;
+        }
+    }
+
+    .movie-card {
+        @apply bg-dark-100 p-5 rounded-2xl shadow-inner shadow-light-100/10 cursor-pointer transition-all duration-300 relative overflow-hidden hover:scale-105 hover:shadow-2xl hover:shadow-red-500/20;
+
+        &.expanded {
+            @apply bg-gradient-to-br from-dark-100 to-purple-900/20 border border-purple-500/30 flex flex-row col-span-full max-h-[500px];
+        }
+
+        & .card-main-content {
+            @apply flex-shrink-0;
+        }
+
+        & img {
+            @apply rounded-lg h-auto w-full;
+        }
+
+        & h3 {
+            @apply text-white font-bold text-base line-clamp-1;
+        }
+
+        & .content {
+            @apply mt-2 flex flex-row items-center flex-wrap gap-2;
+        }
+
+        & .rating {
+            @apply flex flex-row items-center gap-1;
+        }
+
+        & .rating img {
+            @apply size-4 object-contain;
+        }
+
+        & .rating p {
+            @apply font-bold text-base text-white;
+        }
+
+        & .content span {
+            @apply text-sm text-gray-100;
+        }
+
+        & .content .lang {
+            @apply capitalize text-gray-100 font-medium text-base;
+        }
+
+        & .content .year {
+            @apply text-gray-100 font-medium text-base;
+        }
+
+        & .movie-details-horizontal {
+            @apply overflow-hidden w-0 opacity-0 ml-6 flex-1;
+
+            & .details-content {
+                @apply h-full flex flex-col justify-start;
+            }
+
+            & .overview {
+                @apply mb-6;
+
+                & h4 {
+                    @apply text-white font-semibold text-xl mb-3;
+                }
+
+                & p {
+                    @apply text-gray-300 text-base leading-relaxed;
+                }
+            }
+
+            & .trailers {
+                & h4 {
+                    @apply text-white font-semibold text-xl mb-4;
+                }
+
+                & .trailer-list {
+                    @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+
+                    & .trailer-container {
+                        @apply transition-all duration-300;
+
+                        & iframe {
+                            @apply w-full h-40 rounded-lg cursor-pointer transition-all duration-300;
+                        }
+
+                        & .trailer-title {
+                            @apply text-gray-400 text-sm mt-2 text-center;
+                        }
+
+                        &.playing {
+                            @apply col-span-full;
+
+                            & iframe {
+                                @apply h-64 md:h-80;
+                            }
+
+                            & .trailer-title {
+                                @apply text-white font-semibold;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .top-movies {
+        @apply mb-16;
+
+        & .top-movies-header {
+            @apply flex items-center justify-between mb-8;
+
+            & h2 {
+                @apply text-3xl font-bold text-white;
+            }
+
+            & .update-info {
+                @apply text-gray-400 text-sm;
+            }
+        }
+
+        & .top-movies-grid {
+            @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6;
+        }
+    }
+
+    .top-movie-card {
+        @apply bg-dark-100 p-6 rounded-2xl shadow-inner shadow-light-100/10 cursor-pointer transition-all duration-300 relative overflow-hidden;
+
+        &.expanded {
+            @apply bg-gradient-to-br from-dark-100 to-purple-900/20 border border-purple-500/30 flex flex-row col-span-full max-h-[500px];
+        }
+
+        & .rank-number {
+            @apply absolute -top-2 -left-2 w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-3xl font-black text-black z-10 shadow-lg;
+        }
+
+        & .card-main-content {
+            @apply flex-shrink-0;
+        }
+
+        & img {
+            @apply rounded-lg h-auto w-full;
+        }
+
+        & .movie-info {
+            @apply mt-4;
+        }
+
+        & h3 {
+            @apply text-white font-bold text-lg line-clamp-2;
+        }
+
+        & .content {
+            @apply mt-3 flex flex-row items-center flex-wrap gap-2;
+        }
+
+        & .rating {
+            @apply flex flex-row items-center gap-1;
+        }
+
+        & .rating img {
+            @apply size-4 object-contain;
+        }
+
+        & .rating p {
+            @apply font-bold text-base text-white;
+        }
+
+        & .content span {
+            @apply text-sm text-gray-100;
+        }
+
+        & .content .lang {
+            @apply capitalize text-gray-100 font-medium text-base;
+        }
+
+        & .content .year {
+            @apply text-gray-100 font-medium text-base;
+        }
+
+        & .movie-details-horizontal {
+            @apply overflow-hidden w-0 opacity-0 ml-6 flex-1;
+
+            & .details-content {
+                @apply h-full flex flex-col justify-start;
+            }
+
+            & .overview {
+                @apply mb-6;
+
+                & h4 {
+                    @apply text-white font-semibold text-xl mb-3;
+                }
+
+                & p {
+                    @apply text-gray-300 text-base leading-relaxed;
+                }
+            }
+
+            & .trailers {
+                & h4 {
+                    @apply text-white font-semibold text-xl mb-4;
+                }
+
+                & .trailer-list {
+                    @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+
+                    & .trailer-container {
+                        @apply transition-all duration-300;
+
+                        & iframe {
+                            @apply w-full h-40 rounded-lg cursor-pointer transition-all duration-300;
+                        }
+
+                        & .trailer-title {
+                            @apply text-gray-400 text-sm mt-2 text-center;
+                        }
+
+                        &.playing {
+                            @apply col-span-full;
+
+                            & iframe {
+                                @apply h-64 md:h-80;
+                            }
+
+                            & .trailer-title {
+                                @apply text-white font-semibold;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .movie-grid {
+        @apply grid grid-cols-1 gap-5 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4;
+        
+        & li {
+            @apply transition-all duration-300;
+        }
+
+        & li:has(.expanded) {
+            @apply col-span-full;
+        }
+    }
+
+    .pagination {
+        @apply flex items-center justify-center gap-2 mt-8;
+
+        & .pagination-btn {
+            @apply px-4 py-2 bg-dark-100 text-white rounded-lg hover:bg-light-100/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+        }
+
+        & .page-numbers {
+            @apply flex items-center gap-1;
+        }
+
+        & .page-btn {
+            @apply w-10 h-10 flex items-center justify-center text-white rounded-lg hover:bg-light-100/10 transition-colors disabled:cursor-not-allowed;
+
+            &.active {
+                @apply bg-gradient-to-r from-[#D6C7FF] to-[#AB8BFF] text-primary font-bold;
+            }
+
+            &.dots {
+                @apply cursor-default hover:bg-transparent;
+            }
+        }
+    }
+}
+
+@utility text-gradient {
+    @apply bg-linear-to-r from-[#D6C7FF] to-[#AB8BFF] bg-clip-text text-transparent;
+}
+
+
+
+@utility hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/* Trailer wrapper styles for proper click handling */
+.trailer-wrapper {
+    position: relative;
+    cursor: pointer;
+}
+
+.trailer-wrapper iframe {
+    pointer-events: none;
+}
+
+.trailer-wrapper:hover {
+    transform: scale(1.02);
+}
+
+.trailer-container.playing .trailer-wrapper {
+    transform: none;
+}
+/* Trailer button and player styles */
+.trailer-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.trailer-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.trailer-btn {
+    background: #0f0d23;
+    color: white;
+    border: 1px solid rgba(206, 206, 251, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.trailer-btn:hover {
+    background: rgba(206, 206, 251, 0.1);
+    border-color: rgba(206, 206, 251, 0.4);
+}
+
+.trailer-btn.active {
+    background: linear-gradient(to right, #D6C7FF, #AB8BFF);
+    color: #030014;
+    border-color: transparent;
+    font-weight: 600;
+}
+
+.trailer-player {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.trailer-player iframe {
+    width: 100%;
+    height: 100%;
+}
+/* Fix for expanded movie cards to prevent hiding content */
+.movie-card.expanded .movie-details-horizontal,
+.top-movie-card.expanded .movie-details-horizontal {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.movie-card.expanded .details-content,
+.top-movie-card.expanded .details-content {
+    padding-right: 1rem;
+}
+/* Override expanded card height constraints */
+.movie-card.expanded,
+.top-movie-card.expanded {
+    max-height: calc(100vh - 4px) !important;
+}
+
+.movie-card.expanded .movie-details-horizontal,
+.top-movie-card.expanded .movie-details-horizontal {
+    overflow-y: auto;
+    max-height: none !important;
+}
+/* Movie header styles for expanded cards */
+.movie-header {
+    margin-bottom: 1.5rem;
+}
+
+.movie-header h3 {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+}
+
+.movie-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.movie-meta .rating {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.movie-meta .rating img {
+    width: 1rem;
+    height: 1rem;
+}
+
+.movie-meta .rating p {
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.movie-meta span {
+    color: #9ca4ab;
+    font-size: 0.875rem;
+}
+
+.movie-meta .lang,
+.movie-meta .year {
+    color: #9ca4ab;
+    font-weight: 500;
+    font-size: 1rem;
+    text-transform: capitalize;
+}
+
+/* Netflix-Style AI Recommender */
+.personality-recommender {
+    @apply max-w-6xl mx-auto p-6 mb-16;
+}
+
+.personality-header {
+    @apply text-center mb-12;
+}
+
+.personality-title {
+    @apply text-5xl font-bold text-white mb-4;
+    font-family: 'Bebas Neue', 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #E50914 0%, #FF6B6B 50%, #4ECDC4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.personality-subtitle {
+    @apply text-gray-300 text-xl max-w-3xl mx-auto;
+}
+
+.personality-form {
+    @apply bg-black/60 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-gray-700/30 mb-8;
+}
+
+.form-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-6 mb-8;
+}
+
+.form-group {
+    @apply space-y-3;
+}
+
+.form-label {
+    @apply block text-white font-semibold text-base mb-2;
+}
+
+.form-select {
+    @apply w-full bg-black/40 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-netflix-red focus:outline-none focus:ring-2 focus:ring-netflix-red/20 transition-all duration-300;
+}
+
+.form-select:focus {
+    @apply shadow-lg shadow-netflix-red/10;
+}
+
+.button-group {
+    @apply flex gap-4 flex-col sm:flex-row;
+}
+
+.recommend-btn {
+    @apply flex-1 bg-netflix-red hover:bg-red-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:shadow-netflix-red/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-3 text-lg;
+}
+
+.random-btn {
+    @apply bg-gray-700 hover:bg-gray-600 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2;
+}
+
+.spinner {
+    @apply w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin;
+}
+
+.error-message {
+    @apply bg-red-900/30 border border-red-500/50 text-red-300 px-6 py-4 rounded-lg flex items-center gap-3 mb-6;
+}
+
+.error-icon {
+    @apply text-xl;
+}
+
+.random-personality {
+    @apply mb-8 p-6 bg-black/40 rounded-xl border border-gray-700/50;
+}
+
+.random-personality-title {
+    @apply text-lg font-semibold text-white mb-4;
+}
+
+.personality-tags {
+    @apply flex flex-wrap gap-2;
+}
+
+.personality-tag {
+    @apply px-3 py-1 rounded-full text-sm font-medium;
+}
+
+.personality-tag.mood {
+    @apply bg-blue-600/20 text-blue-300 border border-blue-500/30;
+}
+
+.personality-tag.hobby {
+    @apply bg-green-600/20 text-green-300 border border-green-500/30;
+}
+
+.personality-tag.genre {
+    @apply bg-purple-600/20 text-purple-300 border border-purple-500/30;
+}
+
+.personality-tag.vibe {
+    @apply bg-orange-600/20 text-orange-300 border border-orange-500/30;
+}
+
+.recommendations-section {
+    @apply mt-12;
+}
+
+.recommendations-title {
+    @apply text-4xl font-bold text-white mb-8 text-center;
+    font-family: 'Bebas Neue', 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.recommendations-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+.recommendation-card {
+    @apply bg-black/60 backdrop-blur-md rounded-2xl overflow-hidden shadow-xl border border-gray-700/30 hover:border-netflix-red/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-netflix-red/10;
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.card-content {
+    @apply p-6;
+}
+
+.card-title {
+    @apply text-xl font-bold text-white mb-3 line-clamp-2;
+}
+
+.card-meta {
+    @apply flex items-center gap-3 mb-4 text-sm;
+}
+
+.card-meta .year {
+    @apply bg-netflix-red/20 text-red-300 px-3 py-1 rounded-full font-medium;
+}
+
+.card-meta .director {
+    @apply text-gray-400;
+}
+
+.card-reason {
+    @apply mb-4;
+}
+
+.reason-label {
+    @apply block text-green-400 font-semibold text-sm mb-2;
+}
+
+.card-reason {
+    @apply text-gray-300 leading-relaxed;
+}
+
+.card-plot {
+    @apply text-gray-400 text-sm leading-relaxed mt-4 pt-4 border-t border-gray-700/50;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.recommendation-card:nth-child(1) { animation-delay: 0.1s; }
+.recommendation-card:nth-child(2) { animation-delay: 0.2s; }
+.recommendation-card:nth-child(3) { animation-delay: 0.3s; }
+.recommendation-card:nth-child(4) { animation-delay: 0.4s; }
+.recommendation-card:nth-child(5) { animation-delay: 0.5s; }
+/* Netflix App Layout */
+.netflix-app {
+    @apply min-h-screen bg-gradient-to-b from-black to-gray-900;
+    background: linear-gradient(180deg, #0f0f0f 0%, #141414 100%);
+}
+
+.netflix-content {
+    @apply relative z-20 pt-20;
+}
+
+/* Netflix-Style Navigation */
+.netflix-nav {
+    @apply fixed top-0 left-0 right-0 z-50 transition-all duration-300;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%);
+    backdrop-filter: blur(10px);
+}
+
+.netflix-nav.scrolled {
+    background: rgba(0,0,0,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(229, 9, 20, 0.3);
+}
+
+.nav-container {
+    @apply max-w-7xl mx-auto px-6 py-4 flex items-center justify-between;
+}
+
+.nav-logo {
+    @apply text-2xl font-bold cursor-pointer;
+    color: #E50914;
+    font-family: 'Bebas Neue', 'Montserrat', sans-serif;
+}
+
+.nav-links {
+    @apply flex items-center gap-6;
+}
+
+.nav-link {
+    @apply text-white text-sm font-medium transition-all duration-200 cursor-pointer border-none bg-transparent flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10;
+    position: relative;
+}
+
+.nav-link:hover {
+    @apply text-gray-300;
+}
+
+.nav-link.active {
+    @apply text-white;
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #E50914;
+    border-radius: 1px;
+}
+
+.nav-right {
+    @apply flex items-center gap-4;
+}
+
+.nav-search {
+    @apply flex items-center gap-2 cursor-pointer;
+}
+
+.nav-search-icon {
+    @apply w-5 h-5 text-gray-400 hover:text-white transition-colors;
+}
+
+.nav-profile {
+    @apply flex items-center gap-2 cursor-pointer relative;
+}
+
+.profile-name {
+    @apply text-white text-sm font-medium;
+}
+
+.profile-dropdown {
+    @apply absolute top-full right-0 mt-2 bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-32 z-50;
+}
+
+.logout-btn {
+    @apply w-full text-left px-4 py-2 text-white hover:bg-gray-800 transition-colors text-sm;
+}
+
+.profile-avatar {
+    @apply w-8 h-8 rounded-full bg-netflix-red text-white flex items-center justify-center text-sm font-bold;
+}
+
+/* Netflix Content Rows */
+.netflix-row {
+    @apply mb-12 px-6;
+}
+
+.row-title {
+    @apply text-2xl font-bold text-white mb-4;
+    font-family: 'Bebas Neue', 'Montserrat', sans-serif;
+}
+
+.row-header {
+    @apply flex items-center justify-between mb-6 flex-wrap gap-4;
+}
+
+.row-controls {
+    @apply flex items-center gap-4 flex-wrap;
+}
+
+.row-content {
+    @apply relative;
+}
+
+.movie-row-scroll {
+    @apply flex gap-4 overflow-x-auto pb-4;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.movie-row-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+/* Top 10 Badge */
+.top-10-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: #E50914;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 5;
+    box-shadow: 0 2px 8px rgba(229, 9, 20, 0.5);
+}
+
+/* Card Actions */
+.card-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.btn-play, .btn-info {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-play {
+    background: white;
+    color: black;
+    font-weight: 600;
+}
+
+.btn-play:hover {
+    background: #ccc;
+}
+
+.btn-info {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.btn-info:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Author/Episodes/Status info */
+.card-info .author,
+.card-info .episodes {
+    color: #ccc;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+/* Expanded Content */
+.expanded-content {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #1a1a1a;
+    border-radius: 0 0 8px 8px;
+    padding: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    z-index: 15;
+}
+
+.expanded-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.expanded-header h2 {
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #ccc;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.expanded-meta {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    color: #ccc;
+}
+
+.expanded-description {
+    color: #ccc;
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 16px;
+}
+
+.expanded-categories {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.category-tag {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ccc;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+}
+
+.expanded-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-primary {
+    background: #E50914;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: #b8070f;
+}
+
+/* Placeholder styles for manhwa */
+.manhwa-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.manhwa-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 12px;
+    color: white;
+}
+
+.manhwa-placeholder h4 {
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.2;
+}
+
+/* Hero placeholder for manhwa */
+.hero-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.placeholder-title {
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Netflix Cards */
+.netflix-card {
+    @apply flex-shrink-0 cursor-pointer transition-all duration-300 ease-out;
+    width: 200px;
+}
+
+.netflix-card:hover {
+    @apply transform scale-105;
+}
+
+.card-image {
+    @apply relative overflow-hidden rounded-lg;
+    aspect-ratio: 2/3;
+}
+
+.card-image img {
+    @apply w-full h-full object-cover transition-transform duration-300;
+}
+
+.netflix-card:hover .card-image img {
+    @apply scale-110;
+}
+
+.card-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 transition-opacity duration-300 flex items-end;
+}
+
+.netflix-card:hover .card-overlay {
+    @apply opacity-100;
+}
+
+.card-info {
+    @apply p-4 text-white;
+}
+
+.card-info h3 {
+    @apply font-bold text-sm mb-2 line-clamp-2;
+}
+
+.card-meta {
+    @apply flex items-center gap-2 text-xs text-gray-300 mb-2;
+}
+
+.card-overview {
+    @apply text-xs text-gray-400 line-clamp-3;
+}
+
+/* Netflix Grid */
+.netflix-grid {
+    @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4;
+}
+
+.netflix-grid .netflix-card {
+    width: auto;
+}
+
+.netflix-card.expanded {
+    @apply transform scale-105 border-2 border-netflix-red;
+}
+
+
+
+/* Search Section */
+.netflix-search-section {
+    @apply py-8 px-6;
+}
+
+.search-container {
+    @apply max-w-2xl mx-auto;
+}
+
+/* Modern Design System */
+:root {
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --netflix-red: #E50914;
+    --netflix-dark: #141414;
+    --netflix-black: #0f0f0f;
+}
+
+/* Loading and Error States */
+.loading-container {
+    @apply flex justify-center py-12;
+}
+
+.error-container {
+    @apply flex justify-center py-12;
+}
+
+/* Enhanced Search Styling */
+.search {
+    @apply max-w-2xl mx-auto;
+}
+
+.search-input-wrapper {
+    @apply relative flex items-center bg-black/60 backdrop-blur-md rounded-lg border border-gray-700/50 focus-within:border-netflix-red/50 transition-all duration-300 px-4 py-3;
+}
+
+.search-input {
+    @apply bg-transparent text-white placeholder-gray-400 text-base w-full ml-3 focus:outline-none;
+}
+
+.search-input-wrapper:focus-within {
+    @apply shadow-lg shadow-netflix-red/20;
+}
+
+/* Enhanced Controls */
+.sort-controls {
+    @apply flex items-center gap-3;
+}
+
+.sort-select {
+    @apply bg-black/60 text-white px-4 py-2 rounded-lg border border-gray-700 focus:border-netflix-red focus:outline-none transition-colors;
+}
+
+.genre-filter {
+    @apply bg-black/40 backdrop-blur-md rounded-xl p-6 border border-gray-700/50;
+}
+
+.genre-title {
+    @apply text-white font-semibold text-lg mb-4;
+}
+
+.genre-grid {
+    @apply flex flex-wrap gap-3 mb-4;
+}
+
+.genre-tag {
+    @apply px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border border-gray-600 text-gray-300 hover:border-netflix-red hover:text-white cursor-pointer;
+}
+
+.genre-tag.active {
+    @apply bg-netflix-red border-netflix-red text-white;
+}
+
+.genre-tag:hover {
+    @apply transform scale-105;
+}
+
+.clear-genres-btn {
+    @apply bg-netflix-red hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors;
+}
+
+/* Pagination */
+.pagination {
+    @apply flex items-center justify-center gap-2 mt-12 pb-12;
+}
+
+.pagination-btn {
+    @apply px-4 py-2 bg-black/60 text-white rounded-lg hover:bg-netflix-red/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.page-btn {
+    @apply w-10 h-10 flex items-center justify-center text-white rounded-lg hover:bg-netflix-red/80 transition-colors;
+}
+
+.page-btn.active {
+    @apply bg-netflix-red text-white font-bold;
+}
+
+/* Netflix Modal */
+.netflix-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    z-index: 99999;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.netflix-modal {
+    @apply bg-gray-900 rounded-xl max-w-6xl w-full max-h-[90vh] overflow-hidden relative;
+    animation: slideUp 0.3s ease-out;
+}
+
+.modal-close-btn {
+    @apply absolute top-4 right-4 z-10 w-10 h-10 bg-black/70 hover:bg-black/90 text-white rounded-full flex items-center justify-center text-xl font-bold transition-colors;
+}
+
+.modal-content {
+    @apply flex h-full;
+}
+
+.modal-poster {
+    @apply w-1/3 flex-shrink-0;
+}
+
+.modal-poster img {
+    @apply w-full h-full object-cover;
+}
+
+.modal-details {
+    @apply flex-1 p-8 overflow-y-auto;
+}
+
+.modal-header h2 {
+    @apply text-3xl font-bold text-white mb-4;
+    font-family: 'Bebas Neue', 'Montserrat', sans-serif;
+}
+
+.modal-meta {
+    @apply flex items-center gap-4 mb-6 text-gray-300;
+}
+
+.modal-meta .rating {
+    @apply flex items-center gap-2;
+}
+
+.modal-meta .language {
+    @apply bg-gray-700 px-2 py-1 rounded text-xs;
+}
+
+.modal-overview {
+    @apply mb-8;
+}
+
+.modal-overview h3 {
+    @apply text-xl font-semibold text-white mb-3;
+}
+
+.modal-overview p {
+    @apply text-gray-300 leading-relaxed;
+}
+
+.modal-cast {
+    @apply mb-8;
+}
+
+.modal-cast h3 {
+    @apply text-xl font-semibold text-white mb-4;
+}
+
+.cast-list {
+    @apply grid grid-cols-2 gap-4;
+}
+
+.cast-item {
+    @apply flex items-center gap-3;
+}
+
+.cast-item img {
+    @apply w-12 h-12 rounded-full object-cover;
+}
+
+.cast-item .actor-name {
+    @apply text-white font-medium text-sm;
+}
+
+.cast-item .character {
+    @apply text-gray-400 text-xs;
+}
+
+.modal-trailers h3 {
+    @apply text-xl font-semibold text-white mb-4;
+}
+
+.trailer-buttons {
+    @apply flex gap-2 mb-4 flex-wrap;
+}
+
+.trailer-btn {
+    @apply px-4 py-2 bg-gray-700 hover:bg-netflix-red text-white rounded-lg text-sm transition-colors;
+}
+
+.trailer-btn.active {
+    @apply bg-netflix-red;
+}
+
+.trailer-player {
+    @apply w-full aspect-video rounded-lg overflow-hidden;
+}
+
+.trailer-player iframe {
+    @apply w-full h-full;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Browse Section */
+.browse-section {
+    @apply min-h-screen;
+}
+
+.browse-title {
+    @apply text-4xl font-bold text-white mb-8 px-6;
+    font-family: 'Bebas Neue', 'Montserrat', sans-serif;
+}
+
+.browse-categories {
+    @apply px-6 mb-12;
+}
+
+.categories-grid {
+    @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4;
+}
+
+.category-card {
+    @apply bg-gray-800 rounded-lg p-4 hover:bg-gray-700 transition-colors cursor-pointer;
+}
+
+.category-card.expanded {
+    grid-column: 1 / -1;
+    @apply bg-gray-900;
+}
+
+.category-header {
+    @apply flex flex-col relative;
+}
+
+.category-close-btn {
+    @apply absolute top-0 right-0 bg-black hover:bg-red-600 text-white border-none rounded-full w-6 h-6 flex items-center justify-center text-sm cursor-pointer transition-colors;
+}
+
+.category-card h3 {
+    @apply text-white font-semibold text-sm mb-3;
+}
+
+.category-card.expanded h3 {
+    @apply text-lg mb-4;
+}
+
+.category-preview {
+    @apply aspect-video bg-gray-700 rounded flex items-center justify-center;
+}
+
+.preview-placeholder {
+    @apply text-gray-400 text-xs;
+}
+
+.category-poster {
+    @apply w-full h-full object-cover rounded;
+}
+
+.category-card .category-movies {
+    @apply mt-4 pt-4 border-t border-gray-700;
+}
+
+.category-card.expanded .category-preview {
+    @apply hidden;
+}
+
+.category-movies .movie-row-scroll {
+    @apply flex gap-4 overflow-x-auto pb-4;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.category-movies .movie-row-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+/* Enhanced Books, Anime, Manhwa Hero Sections */
+.books-hero, .anime-hero, .manhwa-hero {
+    @apply relative w-full h-screen overflow-hidden;
+}
+
+.books-hero .hero-background, .anime-hero .hero-background, .manhwa-hero .hero-background {
+    @apply absolute inset-0;
+}
+
+.books-hero .hero-background img, .anime-hero .hero-background img, .manhwa-hero .hero-background img {
+    @apply w-full h-full object-cover filter blur-sm scale-110;
+}
+
+.books-hero .hero-overlay, .anime-hero .hero-overlay, .manhwa-hero .hero-overlay {
+    @apply absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent;
+}
+
+.books-hero .hero-content, .anime-hero .hero-content, .manhwa-hero .hero-content {
+    @apply relative z-10 h-full flex items-center px-6 max-w-7xl mx-auto;
+}
+
+.books-hero .hero-text, .anime-hero .hero-text, .manhwa-hero .hero-text {
+    @apply max-w-2xl text-white;
+}
+
+.books-hero .hero-title, .anime-hero .hero-title, .manhwa-hero .hero-title {
+    @apply text-5xl font-bold mb-4 leading-tight;
+    font-family: 'Bebas Neue', 'Montserrat', sans-serif;
+}
+
+.books-hero .hero-meta, .anime-hero .hero-meta, .manhwa-hero .hero-meta {
+    @apply flex items-center gap-4 mb-4 text-lg;
+}
+
+.books-hero .separator, .anime-hero .separator, .manhwa-hero .separator {
+    @apply text-gray-400;
+}
+
+.books-hero .hero-description, .anime-hero .hero-description, .manhwa-hero .hero-description {
+    @apply text-gray-300 text-lg leading-relaxed mb-6;
+}
+
+.books-hero .hero-buttons, .anime-hero .hero-buttons, .manhwa-hero .hero-buttons {
+    @apply flex gap-4;
+}
+
+.read-btn, .watch-btn {
+    @apply bg-netflix-red hover:bg-red-700 text-white px-8 py-3 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105;
+}
+
+.info-btn {
+    @apply bg-gray-600/80 hover:bg-gray-500 text-white px-8 py-3 rounded-lg font-semibold text-lg transition-all duration-300 backdrop-blur-md;
+}
+
+.genres {
+    @apply flex gap-2 mb-4;
+}
+
+.genre-tag {
+    @apply bg-netflix-red/20 text-red-300 px-3 py-1 rounded-full text-sm border border-netflix-red/30;
+}
+
+/* Enhanced Search Sections */
+.books-search-section, .anime-search-section, .manhwa-search-section {
+    @apply py-8 px-6;
+}
+
+.search-wrapper {
+    @apply relative max-w-2xl mx-auto;
+}
+
+.books-search-input, .anime-search-input, .manhwa-search-input {
+    @apply w-full bg-black/60 backdrop-blur-md pl-12 pr-6 py-4 rounded-xl border border-gray-700/50 focus:border-netflix-red/50 transition-all duration-300 text-white placeholder-gray-400 text-lg focus:outline-none;
+}
+
+/* Enhan/* Enhanced Categories */
+.books-categories, .anime-categories, .manhwa-categories {
+    @apply px-6 mb-8;
+}
+
+.section-title {
+    @apply text-3xl font-bold text-white mb-6;
+    font-family: 'Bebas Neue', 'Montserrat', sans-serif;
+}
+
+.category-grid {
+    @apply grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3;
+}
+
+.category-card {
+    @apply bg-gray-800/60 hover:bg-netflix-red/80 text-white p-4 rounded-xl text-center transition-all duration-300 transform hover:scale-105 backdrop-blur-md border border-gray-700/30;
+}
+
+.category-card.active {
+    @apply bg-netflix-red border-netflix-red;
+}
+
+.category-icon {
+    @apply mb-2 block;
+}
+
+.category-name {
+    @apply text-sm font-medium;
+}
+
+/* Enhanced Content Grids */
+.books-content, .anime-content, .manhwa-content {
+    @apply px-6 pb-12;
+}
+
+.enhanced-books-grid, .enhanced-anime-grid, .enhanced-manhwa-grid {
+    @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6;
+}
+
+.enhanced-book-card, .enhanced-anime-card, .enhanced-manhwa-card {
+    @apply bg-gray-900/60 rounded-xl overflow-hidden hover:scale-105 transition-all duration-300 cursor-pointer backdrop-blur-md border border-gray-800/50;
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+.book-cover-wrapper, .anime-poster-wrapper, .manhwa-cover-wrapper {
+    @apply relative aspect-[3/4] overflow-hidden;
+}
+
+.book-cover-img, .anime-poster-img, .manhwa-cover-img {
+    @apply w-full h-full object-cover transition-transform duration-300;
+}
+
+.enhanced-book-card:hover .book-cover-img, .enhanced-anime-card:hover .anime-poster-img, .enhanced-manhwa-card:hover .manhwa-cover-img {
+    @apply scale-110;
+}
+
+.book-overlay, .anime-overlay, .manhwa-overlay {
+    @apply absolute inset-0 bg-black/60 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center;
+}
+
+.quick-view-btn {
+    @apply bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg backdrop-blur-md transition-all duration-300;
+}
+
+.anime-score-badge, .manhwa-status-badge {
+    @apply absolute top-2 right-2 bg-netflix-red text-white px-2 py-1 rounded text-xs font-bold;
+}
+
+.book-details, .anime-details, .manhwa-details {
+    @apply p-4;
+}
+
+.book-title, .anime-title, .manhwa-title {
+    @apply text-white font-bold text-sm mb-2 line-clamp-2;
+}
+
+.book-author {
+    @apply text-gray-400 text-xs mb-2;
+}
+
+.book-meta, .anime-meta, .manhwa-meta {
+    @apply flex items-center gap-2 mb-2 text-xs;
+}
+
+.book-rating, .anime-year, .anime-episodes, .anime-status, .manhwa-year, .manhwa-status {
+    @apply text-gray-400;
+}
+
+.anime-genres, .manhwa-genres {
+    @apply flex gap-1 mb-2;
+}
+
+.genre-pill {
+    @apply bg-gray-700 text-gray-300 px-2 py-1 rounded text-xs;
+}
+
+.book-description, .anime-synopsis, .manhwa-description {
+    @apply text-gray-400 text-xs leading-relaxed;
+}
+
+/* Loading States */
+.books-loading, .anime-loading, .manhwa-loading {
+    @apply flex flex-col items-center justify-center py-20 text-white;
+}
+
+.loading-spinner {
+    @apply w-12 h-12 border-4 border-gray-600 border-t-netflix-red rounded-full animate-spin mb-4;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Grid Wrappers */
+.books-grid-wrapper, .anime-grid-wrapper, .manhwa-grid-wrapper {
+    @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2;
+}
+
+/* Inline Expansion Styles */
+.inline-expansion-row {
+    @apply col-span-full bg-gray-900/95 backdrop-blur-md rounded-xl p-6 border border-gray-800/50 my-4;
+    animation: slideDown 0.3s ease-out;
+}
+
+.inline-expansion-content {
+    @apply relative;
+}
+
+.inline-close-btn {
+    @apply absolute top-0 right-0 text-gray-400 hover:text-white text-xl cursor-pointer transition-colors z-10;
+}
+
+.inline-expansion-layout {
+    @apply flex gap-6 items-start;
+}
+
+.inline-expansion-details {
+    @apply flex-1 space-y-4;
+}
+
+.inline-expansion-title {
+    @apply text-2xl font-bold text-white;
+}
+
+.inline-expansion-meta {
+    @apply flex gap-4 text-sm text-gray-400;
+}
+
+.inline-expansion-description {
+    @apply text-gray-300 text-sm leading-relaxed;
+}
+
+.inline-expansion-categories {
+    @apply flex gap-2 flex-wrap;
+}
+
+.inline-expansion-actions {
+    @apply pt-2;
+}
+
+.inline-expansion-image {
+    @apply flex-shrink-0;
+}
+
+.inline-expansion-image img {
+    @apply w-48 h-72 object-cover rounded-lg;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-section {
+        height: 70vh;
+    }
+    
+    .categories-grid {
+        @apply grid-cols-2;
+    }
+    
+    .books-grid, .anime-grid, .manhwa-grid {
+        @apply grid-cols-2 sm:grid-cols-3;
+    }
+    
+    .inline-expansion-layout {
+        @apply flex-col;
+    }
+    
+    .inline-expansion-image img {
+        @apply w-full h-64;
+    }
+    
+    .nav-links {
+        @apply gap-3;
+    }
+    
+    .nav-link {
+        @apply text-xs px-2 py-1;
+    }
+    
+    .nav-right {
+        @apply gap-2;
+    }
+}
+    
+    .nav-links {
+        @apply gap-4;
+    }
+    
+    .nav-link {
+        @apply text-xs;
+    }
+    
+    .row-header {
+        @apply flex-col items-start;
+    }
+    
+    .netflix-grid {
+        @apply grid-cols-2 sm:grid-cols-3;
+    }
+    
+    .modal-content {
+        @apply flex-col;
+    }
+    
+    .modal-poster {
+        @apply w-full h-64;
+    }
+    
+    .modal-details {
+        @apply p-4;
+    }
+    
+    .cast-list {
+        @apply grid-cols-1;
+    }
+
+
+/* Enhanced Spinner */
+.spinner {
+    @apply w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin;
+}
+
+/* Enhanced Form Styling */
+.personality-form {
+    background: linear-gradient(135deg, rgba(15, 13, 35, 0.8) 0%, rgba(15, 13, 35, 0.9) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(206, 206, 251, 0.1);
+    box-shadow: var(--shadow-xl);
+}
+
+.form-select {
+    @apply transition-all duration-300;
+    box-shadow: var(--shadow-sm);
+}
+
+.form-select:focus {
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1), var(--shadow-md);
+}
+
+/* Enhanced Recommendation Cards */
+.recommendation-card {
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-xl);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.recommendation-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 25px 50px -12px rgba(139, 92, 246, 0.25);
+}
+
+/* Enhanced Typography */
+.personality-title {
+    background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #f59e0b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.recommendations-title {
+    background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+/* Cast Section Styles */
+.cast {
+    margin-bottom: 1.5rem;
+}
+
+.cast h4 {
+    color: white;
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.cast-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .cast-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.cast-member {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(206, 206, 251, 0.05);
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+}
+
+.cast-member img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.cast-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.actor-name {
+    color: white;
+    font-weight: 500;
+    font-size: 0.875rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.character {
+    color: #9ca4ab;
+    font-size: 0.75rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Watch Providers Section Styles */
+.watch-providers {
+    margin-bottom: 1.5rem;
+}
+
+.watch-providers h4 {
+    color: white;
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.provider-section {
+    margin-bottom: 1rem;
+}
+
+.provider-section h5 {
+    color: #cecefb;
+    font-weight: 500;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+.providers {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.provider {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.provider:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.provider img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Netflix-Style Hero Section */
+.hero-section {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
+    overflow: hidden;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(0, 0, 0, 0.4) 50%,
+        rgba(0, 0, 0, 0.8) 100%
+    );
+    z-index: 2;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hero-text {
+    max-width: 600px;
+    color: white;
+}
+
+.hero-title {
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 900;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.hero-meta .rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.hero-meta .separator {
+    color: #ccc;
+}
+
+.hero-meta .year {
+    color: white;
+}
+
+.hero-meta .rating-badge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.hero-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: #e5e5e5;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.play-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #E50914;
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
+}
+
+.play-btn:hover {
+    background: #B8070F;
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(229, 9, 20, 0.6);
+}
+
+.info-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.info-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: white;
+    transform: scale(1.05);
+}
+
+/* Navigation Arrows */
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 4;
+    backdrop-filter: blur(10px);
+}
+
+.nav-arrow:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.8);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.nav-arrow:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.nav-arrow-left {
+    left: 1rem;
+}
+
+.nav-arrow-right {
+    right: 1rem;
+}
+
+/* Indicators */
+.hero-indicators {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    z-index: 4;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.indicator.active {
+    background: white;
+    border-color: white;
+}
+
+.indicator:hover {
+    border-color: white;
+    transform: scale(1.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-section {
+        height: 60vh;
+        min-height: 400px;
+    }
+
+    .hero-content {
+        padding: 0 1rem;
+    }
+
+    .hero-text {
+        max-width: 100%;
+    }
+
+    .hero-title {
+        font-size: clamp(1.5rem, 8vw, 3rem);
+    }
+
+    .hero-description {
+        font-size: 1rem;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .play-btn,
+    .info-btn {
+        justify-content: center;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .nav-arrow {
+        width: 40px;
+        height: 40px;
+    }
+
+    .nav-arrow-left {
+        left: 0.5rem;
+    }
+
+    .nav-arrow-right {
+        right: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section {
+        height: 50vh;
+        min-height: 350px;
+    }
+
+    .hero-meta {
+        font-size: 1rem;
+        gap: 0.75rem;
+    }
+
+    .hero-description {
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+    }
+}
