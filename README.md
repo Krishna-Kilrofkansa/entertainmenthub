@@ -200,14 +200,17 @@ See the [LICENSE](./LICENSE) file for more information.
 
 ---
 
-## 🖼️ Screenshots (Optional)
+## 🖼️ Screenshots
 
 Add screenshots to make the README visually appealing:
 
 ```markdown
-![Home Page](./assets/screenshots/home.png)
-![Anime Section](./assets/screenshots/anime.png)
-![Book Page](./assets/screenshots/books.png)
+![Home Page](<img width="1919" height="863" alt="image" src="https://github.com/user-attachments/assets/602a496b-eec4-4444-9b8d-104b1260b066" />
+)
+![Anime Section](<img width="1899" height="867" alt="image" src="https://github.com/user-attachments/assets/5213047e-80b4-4d73-a834-511a25dfb9de" />
+)
+![Book Page](![Uploading image.png…]()
+)
 ```
 
 ---
