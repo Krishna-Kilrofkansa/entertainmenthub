@@ -217,8 +217,3 @@ Home Page
 ⭐ **If you like this project, don’t forget to star the repository!**
 
 ```
-
----
-
-Would you like me to add **modern badges** (e.g., License, Tech Stack, Build, Deploy) and a **hero banner** section at the top to make it look like a showcase-ready open-source README (like the ones on trending GitHub repos)?
-```
