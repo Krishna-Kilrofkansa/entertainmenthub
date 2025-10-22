@@ -205,12 +205,13 @@ See the [LICENSE](./LICENSE) file for more information.
 Add screenshots to make the README visually appealing:
 
 ```markdown
-![Home Page](<img width="1919" height="863" alt="image" src="https://github.com/user-attachments/assets/602a496b-eec4-4444-9b8d-104b1260b066" />
-)
-![Anime Section](<img width="1899" height="867" alt="image" src="https://github.com/user-attachments/assets/5213047e-80b4-4d73-a834-511a25dfb9de" />
-)
-![Book Page](![Uploading image.png…]()
-)
+Home Page
+<img width="1919" height="863" alt="image" src="https://github.com/user-attachments/assets/602a496b-eec4-4444-9b8d-104b1260b066" />
+
+<img width="1899" height="867" alt="image" src="https://github.com/user-attachments/assets/5213047e-80b4-4d73-a834-511a25dfb9de" />
+
+<img width="1886" height="852" alt="image" src="https://github.com/user-attachments/assets/c1756050-d5b1-4de6-99ee-0490f24cf32a" />
+
 ```
 
 ---
