@@ -1,5 +1,6 @@
 package com.entertainmenthub.user_api.authservice.security;
 
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import com.entertainmenthub.user_api.authservice.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class WebSecurityConfig {
 
     @Autowired

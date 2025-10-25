@@ -3,6 +3,8 @@ package com.entertainmenthub.user_api.authservice.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import java.util.HashSet;
+import java.util.Set;
 
 // This tells Spring this class represents a collection named "users" in MongoDB
 @Document(collection = "users")
@@ -10,6 +12,16 @@ public class User {
 
     @Id
     private String id; // MongoDB uses String for its default _id field
+
+    private Set<WatchlistItem> watchlist = new HashSet<>();
+
+    public Set<WatchlistItem> getWatchlist() {
+        return watchlist;
+    }
+
+    public void setWatchlist(Set<WatchlistItem> watchlist) {
+        this.watchlist = watchlist;
+    }
 
     // This ensures no two users can have the same email address
     @Indexed(unique = true)
