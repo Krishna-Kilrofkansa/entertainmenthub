@@ -1,8 +1,10 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react'
 import { gsap } from 'gsap'
 import starr from "../assets/star.svg"
+import { BookmarkIcon as BookmarkIconOutline } from '@heroicons/react/24/outline';
+import { BookmarkIcon as BookmarkIconSolid } from '@heroicons/react/24/solid';
 
-const Moviecard = ({ movie, isExpanded, onExpand, onClose }) => {
+const Moviecard = ({ movie, isExpanded, onExpand, onClose, isWatchlisted, onAddToWatchlist, onRemoveFromWatchlist, currentUser }) => {
     const { id, title, vote_average, poster_path, release_date, original_language, overview } = movie
     const cardRef = useRef(null)
     const detailsRef = useRef(null)
@@ -12,7 +14,21 @@ const Moviecard = ({ movie, isExpanded, onExpand, onClose }) => {
     const [cast, setCast] = useState([])
     const [watchProviders, setWatchProviders] = useState(null)
     const [dataLoaded, setDataLoaded] = useState(false)
-    
+    const handleWatchlistClick = (e) => {
+    // Stop the click from expanding the card
+    e.stopPropagation();
+
+        if (!currentUser) {
+        alert("Please log in to add items to your watchlist.");
+        return;
+        }
+        
+        if (isWatchlisted) {
+        onRemoveFromWatchlist(id, 'movie');
+        } else {
+        onAddToWatchlist(id, 'movie');
+        }
+    };
     useEffect(() => {
         if (isExpanded) {
             // Scroll to show the expanded card
@@ -121,6 +137,16 @@ const Moviecard = ({ movie, isExpanded, onExpand, onClose }) => {
             data-movie-id={id}
         >
             <div className="card-main-content">
+                {currentUser && (
+                    <button onClick={handleWatchlistClick} className="watchlist-button">
+                        {isWatchlisted ? (
+                        <BookmarkIconSolid className="w-6 h-6 text-white" />
+                        ) : (
+                        <BookmarkIconOutline className="w-6 h-6 text-white" />
+                        )}
+                    </button>
+                )}
+                
                 <img src={poster_path ? `https://image.tmdb.org/t/p/w500/${poster_path}` : '/no-movie.png'} alt={title}/>
                 
                 <div className="mt-4">

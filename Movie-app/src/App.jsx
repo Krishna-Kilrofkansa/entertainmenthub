@@ -16,6 +16,7 @@ import Anime from "./components/Anime.jsx";
 import Manhwa from "./components/Manhwa.jsx";
 import LoginModal from "./components/LoginModal.jsx";
 import AuthService from "./services/auth.service.jsx";
+import UserService from "./services/user.service.js";
 
 import {useDebounce} from "react-use";
 
@@ -63,19 +64,55 @@ const App = () => {
     const [showLogin, setShowLogin] = useState(false);
     const [currentUser, setCurrentUser] = useState(undefined);
     const [showProfileMenu, setShowProfileMenu] = useState(false);
+    const [watchlist, setWatchlist] = useState(new Set());
 
     // Check for logged-in user on app startup
     useEffect(() => {
         const user = AuthService.getCurrentUser();
         if (user) {
             setCurrentUser(user);
+            UserService.getWatchlist().then((response) => {
+        // Create a Set of item IDs for quick lookups
+                const watchlistIds = new Set(response.data.map(item => item.itemId));
+                setWatchlist(watchlistIds);
+      });
         }
     }, []);
+
+   const handleAddToWatchlist = (itemId, itemType) => {
+    UserService.addToWatchlist(itemId, itemType).then(() => {
+        // Optimistically update the UI for a fast user experience
+        setWatchlist(prev => new Set(prev).add(itemId.toString()));
+    }).catch((error) => {
+        console.error('Error adding to watchlist:', error);
+        // Optionally, revert the UI change if the API call fails
+        setWatchlist(prev => {
+            const next = new Set(prev);
+            next.delete(itemId.toString());
+            return next;
+        });
+    }); // Corrected from };
+};
+
+const handleRemoveFromWatchlist = (itemId, itemType) => {
+    UserService.removeFromWatchlist(itemId, itemType).then(() => {
+        setWatchlist(prev => {
+            const next = new Set(prev);
+            next.delete(itemId.toString());
+            return next;
+        });
+    }).catch((error) => {
+        console.error('Error removing from watchlist:', error);
+        // Optionally, revert the UI change if the API call fails
+        setWatchlist(prev => new Set(prev).add(itemId.toString()));
+    }); 
+}
 
     // Logout function
     const logOut = () => {
         AuthService.logout();
         setCurrentUser(undefined);
+        setWatchlist(new Set());
         setShowProfileMenu(false);
     };
 
@@ -505,6 +542,10 @@ const App = () => {
                                                     isExpanded={expandedMovie === movie.id}
                                                     onExpand={handleMovieExpand}
                                                     onClose={handleMovieClose}
+                                                    isWatchlisted={watchlist.has(movie.id.toString())}
+                                                    onAddToWatchlist={handleAddToWatchlist}
+                                                    onRemoveFromWatchlist={handleRemoveFromWatchlist}
+                                                    currentUser={currentUser}
                                                 />
                                             </li>
                                         ))}
@@ -532,6 +573,6 @@ const App = () => {
                 }}
             />
         </main>
-    )
+    );
 }
 export default App
